@@ -21,14 +21,16 @@ sealed trait Product {
   def quatityInStock: Option[Int]
   def stock: InStock
   def images: Option[List[Image]]
+  def categories: Option[List[Category]]
 }
 
 case class PlainProduct(productName: String,
-                   productId: UUID,
-                   sizes: Size,
-                   price: Double,
-                   productStatus: Status,
-                   quatityInStock: Int,
-                   stock: InStock,
-                   images: List[Image])
+                        productId: UUID,
+                        sizes: Size,
+                        price: Double,
+                        productStatus: Status,
+                        quatityInStock: Int,
+                        stock: InStock,
+                        images: List[Image],
+                        categories: Option[List[Category]] = None)
     extends Product

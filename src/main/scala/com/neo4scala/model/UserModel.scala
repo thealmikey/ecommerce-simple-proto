@@ -11,17 +11,19 @@ trait withAccountOpenAndCloseDate {
   def closeDate: Option[Date]
 }
 
+case class UserUUID(value:UUID) extends AnyVal
+
 trait User extends withAccountOpenAndCloseDate {
   def firstName: String
   def lastName: String
-  def userId: UUID
+  def userId: UserUUID
   def phone: Long
   def profilePicture: Image
 }
 
 case class Customer private(firstName: String,
                     lastName: String,
-                    userId: UUID,
+                    userId: UserUUID,
                     phone: Long,
                     profilePicture: Image,
                     openDate: Date,
@@ -29,7 +31,7 @@ case class Customer private(firstName: String,
     extends User
 case class Owner private(firstName: String,
                  lastName: String,
-                 userId: UUID,
+                 userId: UserUUID,
                  phone: Long,
                  profilePicture: Image,
                  openDate: Date,
@@ -38,7 +40,7 @@ case class Owner private(firstName: String,
 object User {
   def createCustomer(firstName: String,
                      lastName: String,
-                     userId: UUID,
+                     userId: UserUUID,
                      phone: Long,
                      profilePicture: Image,
                      openDate: Option[Date],
@@ -49,7 +51,7 @@ object User {
 
     def createOwner(firstName: String,
                     lastName: String,
-                    userId: UUID,
+                    userId: UserUUID,
                     phone: Long,
                     profilePicture: Image,
                     openDate: Option[Date],

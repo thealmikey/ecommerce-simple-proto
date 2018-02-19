@@ -20,11 +20,13 @@ case object Received extends OrderState
 case object Processing extends OrderState
 case object Shipped extends OrderState
 
-case class Order private[OrderState](customer: Customer, shop: Shop, orderId:UUID, orderState: OrderState,openDate:Date,closeDate:Option[Date]) extends withOrderCreateAndCloseDate
+case class OrderUUID(value:UUID) extends AnyVal
+
+case class Order private[OrderState](customer: Customer, shop: Shop, orderId:OrderUUID, orderState: OrderState,openDate:Date,closeDate:Option[Date]) extends withOrderCreateAndCloseDate
 
 object Order {
 
-  def createOrder(customer: Customer, shop: Shop, orderId: UUID, orderState: OrderState, openDate: Option[Date], closeDate: Option[Date]) = {
+  def createOrder(customer: Customer, shop: Shop, orderId: OrderUUID, orderState: OrderState, openDate: Option[Date], closeDate: Option[Date]) = {
     closeDateCheck(openDate, closeDate).map { d =>
       Order(customer, shop, orderId, orderState, d._1, d._2)
     }
