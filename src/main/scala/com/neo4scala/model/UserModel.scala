@@ -3,7 +3,7 @@ package com.neo4scala.model
 import java.util.{Calendar, Date, UUID}
 
 import scala.util.{Failure, Success, Try}
-
+import Common._
 
 
 trait withAccountOpenAndCloseDate {
@@ -25,7 +25,7 @@ case class Customer private(firstName: String,
                     phone: Long,
                     profilePicture: Image,
                     openDate: Date,
-                    closeDate: Option[Date])
+                    closeDate: Option[Date]=None)
     extends User
 case class Owner private(firstName: String,
                  lastName: String,
@@ -33,7 +33,7 @@ case class Owner private(firstName: String,
                  phone: Long,
                  profilePicture: Image,
                  openDate: Date,
-                 closeDate: Option[Date]) extends User
+                 closeDate: Option[Date]=None) extends User
 
 object User {
   def createCustomer(firstName: String,

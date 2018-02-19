@@ -1,6 +1,7 @@
 package com.neo4scala.model
 
 import java.util.UUID
+import Common._
 
 sealed trait Size
 case object Small extends Size
@@ -11,14 +12,23 @@ sealed trait InStock
 case object Available extends InStock
 case object Unavailable extends InStock
 
-
 sealed trait Product {
   def productName: String
   def productId: UUID
-  def sizes: Size
+  def sizes: Option[Size]
   def price: Double
   def productStatus: Status
-  def quatityInStock: Int
+  def quatityInStock: Option[Int]
   def stock: InStock
-  def images: List[Image]
+  def images: Option[List[Image]]
 }
+
+case class PlainProduct(productName: String,
+                   productId: UUID,
+                   sizes: Size,
+                   price: Double,
+                   productStatus: Status,
+                   quatityInStock: Int,
+                   stock: InStock,
+                   images: List[Image])
+    extends Product

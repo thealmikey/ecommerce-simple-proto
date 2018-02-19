@@ -1,7 +1,11 @@
 package com.neo4scala.model
 
-sealed trait DayOfWeek {
+
+object Common {
+
+  sealed trait DayOfWeek {
     val value: Int
+
     override def toString = value match {
       case 1 => "Monday"
       case 2 => "Tuesday"
@@ -12,11 +16,20 @@ sealed trait DayOfWeek {
       case 7 => "Sunday"
     }
   }
+
   object DayOfWeek {
-    private def unsafeDayOfWeek(d: Int) = new DayOfWeek { val value = d }
+    private def unsafeDayOfWeek(d: Int) = new DayOfWeek {
+      val value = d
+    }
+
     private val isValid: Int => Boolean = { i => i >= 1 && i <= 7 }
+
     def dayOfWeek(d: Int): Option[DayOfWeek] = if (isValid(d))
       Some(unsafeDayOfWeek(d)) else None
   }
-case class Location(latitude: Long, longitude: Long)
-case class Image(imageUrl: String)
+
+  case class Location(latitude: Long, longitude: Long)
+
+  case class Image(imageUrl: String)
+
+}

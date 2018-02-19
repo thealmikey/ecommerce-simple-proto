@@ -1,6 +1,7 @@
 package com.neo4scala.model
 
 import java.util.UUID
+import Common._
 
 trait Shop {
   def name: String

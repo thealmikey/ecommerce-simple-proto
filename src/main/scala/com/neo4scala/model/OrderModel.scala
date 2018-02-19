@@ -20,11 +20,11 @@ case object Received extends OrderState
 case object Processing extends OrderState
 case object Shipped extends OrderState
 
-case class Order private(customer: Customer, shop: Shop, orderId:UUID, orderState: OrderState,openDate:Date,closeDate:Option[Date]) extends withOrderCreateAndCloseDate
+case class Order private[OrderState](customer: Customer, shop: Shop, orderId:UUID, orderState: OrderState,openDate:Date,closeDate:Option[Date]) extends withOrderCreateAndCloseDate
 
-object Order{
+object Order {
 
-  def createOrder(customer: Customer, shop: Shop, orderId:UUID, orderState: OrderState,openDate:Option[Date],closeDate:Option[Date]) ={
+  def createOrder(customer: Customer, shop: Shop, orderId: UUID, orderState: OrderState, openDate: Option[Date], closeDate: Option[Date]) = {
     closeDateCheck(openDate, closeDate).map { d =>
       Order(customer, shop, orderId, orderState, d._1, d._2)
     }
@@ -35,8 +35,7 @@ object Order{
                       openDate: Option[Date],
                       closeDate: Option[Date]): Try[(Date, Option[Date])]
 
-  =
-  {
+  = {
     val od = openDate.getOrElse(Calendar.getInstance().getTime)
 
     closeDate
@@ -51,4 +50,5 @@ object Order{
       .getOrElse {
         Success((od, closeDate))
       }
+  }
 }
