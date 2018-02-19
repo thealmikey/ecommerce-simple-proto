@@ -31,11 +31,7 @@ addCompilerPlugin(
   "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full
 )
 
-libraryDependencies ++= Seq(
-  "com.chuusai" %% "shapeless" % "2.3.3"
-)
-
-libraryDependencies += "io.frees" %% "frees-core" % "0.6.3"
-
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.4"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
+libraryDependencies += "org.scalamock" %% "scalamock" % "4.1.0" % Test
