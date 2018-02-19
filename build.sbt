@@ -1,0 +1,41 @@
+name := "scala2neo"
+
+version := "0.1"
+
+scalaVersion := "2.12.4"
+
+// https://mvnrepository.com/artifact/org.neo4j/neo4j
+libraryDependencies += "org.neo4j" % "neo4j" % "3.3.2"
+// https://mvnrepository.com/artifact/org.neo4j.driver/neo4j-java-driver
+libraryDependencies += "org.neo4j.driver" % "neo4j-java-driver" % "1.5.0"
+
+
+libraryDependencies++= Seq(
+  "com.typesafe.akka" %% "akka-http"   % "10.1.0-RC1",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.8"
+)
+
+val circeVersion = "0.9.0"
+
+libraryDependencies ++= Seq(
+  "io.circe" %% "circe-core",
+  "io.circe" %% "circe-generic",
+  "io.circe" %% "circe-parser"
+).map(_ % circeVersion)
+
+libraryDependencies += "io.circe" %% "circe-optics" % circeVersion
+// https://mvnrepository.com/artifact/de.heikoseeberger/akka-http-circe
+libraryDependencies += "de.heikoseeberger" %% "akka-http-circe" % "1.19.0"
+
+addCompilerPlugin(
+  "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full
+)
+
+libraryDependencies ++= Seq(
+  "com.chuusai" %% "shapeless" % "2.3.3"
+)
+
+libraryDependencies += "io.frees" %% "frees-core" % "0.6.3"
+
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.4"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
