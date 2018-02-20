@@ -39,7 +39,11 @@ addCompilerPlugin(
   "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full
 )
 
+libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.1"
+
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.4"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
 libraryDependencies += "org.scalamock" %% "scalamock" % "4.1.0" % Test
+// https://mvnrepository.com/artifact/org.scalamock/scalamock-scalatest-support
+libraryDependencies += "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
