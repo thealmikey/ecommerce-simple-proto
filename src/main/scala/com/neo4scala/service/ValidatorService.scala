@@ -43,7 +43,7 @@ object UserValidater {
     if (age >= 18 && age <= 75) age.validNel else AgeIsInvalid.invalidNel
 
   def validatePhone(phone: Long): ValidationResult[Long] =
-    if (phone.toString().matches("^[a-zA-Z]+$")) phone.toLong.validNel
+    if (phone.toString().matches("^[0-9]+$")) phone.toLong.validNel
     else PhoneIsInvalid.invalidNel
 
 }

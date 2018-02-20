@@ -26,11 +26,11 @@ sealed trait Product {
 
 case class PlainProduct(productName: String,
                         productId: UUID,
-                        sizes: Size,
+                        sizes: Option[Size],
                         price: Double,
                         productStatus: Status,
-                        quatityInStock: Int,
+                        quatityInStock: Option[Int],
                         stock: InStock,
-                        images: List[Image],
+                        images: Option[List[Image]],
                         categories: Option[List[Category]] = None)
     extends Product

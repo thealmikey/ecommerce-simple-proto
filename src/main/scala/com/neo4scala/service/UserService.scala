@@ -8,10 +8,10 @@ import cats.Apply
 import cats.implicits._
 
 trait UserService {
-  def createNewCustomer(user: Customer): ValidationResult[User] = {
-    (validateFirstName(user.firstName),
-     validateLastName(user.lastName),
-     validateAge(user.age),
-     validatePhone(user.phone)).mapN((a,b,c,d)=>Customer(a,b,c,d))
-  }
+  def createNewCustomer(firstName:String,lastName:String,age:Int,phone:Long): ValidationResult[User]
+}
+
+object UserServiceImplementation extends UserService{
+  def createNewCustomer(firstName:String,lastName:String,age:Int,phone:Long): ValidationResult[User] =
+( validateFirstName(firstName),validateLastName(lastName), validateAge(age),validatePhone(phone)).mapN((a,b,c,d) =>User.createCustomer(a, b,c,d))
 }
