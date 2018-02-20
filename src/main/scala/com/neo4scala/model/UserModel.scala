@@ -5,68 +5,83 @@ import java.util.{Calendar, Date, UUID}
 import scala.util.{Failure, Success, Try}
 import Common._
 
-
 trait withAccountOpenAndCloseDate {
   def openDate: Date
   def closeDate: Option[Date]
 }
 
-case class UserUUID(value:UUID) extends AnyVal
+case class UserUUID(value: UUID) extends AnyVal
 
 trait User extends withAccountOpenAndCloseDate {
   def firstName: String
   def lastName: String
-  def userId: UserUUID
+  def age: Int
+  def userId: Option[UserUUID]
   def phone: Long
-  def profilePicture: Image
+  def profilePicture: Option[Image]
 }
 
-case class Customer private(firstName: String,
-                    lastName: String,
-                    userId: UserUUID,
-                    phone: Long,
-                    profilePicture: Image,
-                    openDate: Date,
-                    closeDate: Option[Date]=None)
+case class Customer private (firstName: String,
+                             lastName: String,
+                             age: Int,
+                             phone: Long,
+                             userId: Option[UserUUID] = None,
+                             profilePicture: Option[Image] = None,
+                             openDate: Option[Date] = None,
+                             closeDate: Option[Date] = None)
     extends User
-case class Owner private(firstName: String,
-                 lastName: String,
-                 userId: UserUUID,
-                 phone: Long,
-                 profilePicture: Image,
-                 openDate: Date,
-                 closeDate: Option[Date]=None) extends User
+case class Owner private (firstName: String,
+                          lastName: String,
+                          age: Int,
+                          phone: Long,
+                          userId: Option[UserUUID] = None,
+                          profilePicture: Option[Image] = None,
+                          openDate: Option[Date] = None,
+                          closeDate: Option[Date] = None)
+    extends User
 
 object User {
   def createCustomer(firstName: String,
                      lastName: String,
-                     userId: UserUUID,
+                     age: Int,
                      phone: Long,
-                     profilePicture: Image,
-                     openDate: Option[Date],
-                     closeDate: Option[Date]): Try[User] = {
+                     userId: Option[UserUUID] = None,
+                     profilePicture: Option[Image] = None,
+                     openDate: Option[Date] = None,
+                     closeDate: Option[Date] = None): Try[User] = {
     closeDateCheck(openDate, closeDate).map { d =>
-      Customer(firstName, lastName, userId, phone, profilePicture, d._1, d._2)
+      Customer(firstName,
+               lastName,
+               age,
+               phone,
+               userId,
+               profilePicture,
+               Some(d._1),
+               d._2)
     }
 
     def createOwner(firstName: String,
                     lastName: String,
-                    userId: UserUUID,
+                    age: Int,
                     phone: Long,
-                    profilePicture: Image,
-                    openDate: Option[Date],
-                    closeDate: Option[Date]): Try[User] = {
+                    userId: Option[UserUUID] = None,
+                    profilePicture: Option[Image] = None,
+                    openDate: Option[Date] = None,
+                    closeDate: Option[Date] = None): Try[User] = {
       closeDateCheck(openDate, closeDate).map { d =>
-       Owner(firstName, lastName, userId, phone, profilePicture, d._1,d._2)
+        Owner(firstName,
+              lastName,
+              age,
+              phone,
+              userId,
+              profilePicture,
+              Some(d._1),
+              d._2)
       }
     }
 
-     def closeDateCheck(
-                                openDate: Option[Date],
-                                closeDate: Option[Date]): Try[(Date, Option[Date])]
-
-    =
-    {
+    def closeDateCheck(openDate: Option[Date],
+                       closeDate: Option[Date]): Try[(Date, Option[Date])] = {
       val od = openDate.getOrElse(Calendar.getInstance().getTime)
 
       closeDate
@@ -84,15 +99,6 @@ object User {
     }
   }
 }
-
-
-
-
-
-
-
-
-
 
 sealed trait DayOfWeek {
   val theDay: Int
@@ -123,5 +129,3 @@ object DayOfWeek {
     }
   }
 }
-
-
