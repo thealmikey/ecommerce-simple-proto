@@ -8,11 +8,6 @@ sealed trait Status
 case object Enabled extends Status
 case object Disabled extends Status
 
-trait withOrderCreateAndCloseDate {
-  def openDate: Date
-  def closeDate: Option[Date]
-}
-
 trait OrderState
 case object Submitted extends OrderState
 case object Pending extends OrderState
@@ -22,7 +17,7 @@ case object Shipped extends OrderState
 
 case class OrderUUID(value:UUID) extends AnyVal
 
-case class Order private(customer: Customer, shop: Shop, orderId:OrderUUID, orderState: OrderState,openDate:Date,closeDate:Option[Date]) extends withOrderCreateAndCloseDate
+case class Order private(customer: Customer, shop: Shop, orderId:OrderUUID, orderState: OrderState,openDate:Date,closeDate:Option[Date])
 
 object Order {
 

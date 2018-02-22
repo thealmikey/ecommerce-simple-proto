@@ -5,20 +5,18 @@ import java.util.{Calendar, Date, UUID}
 import scala.util.{Failure, Success, Try}
 import Common._
 
-trait withAccountOpenAndCloseDate {
-  def openDate: Option[Date]
-  def closeDate: Option[Date]
-}
 
 case class UserUUID(value: UUID) extends AnyVal
 
-trait User extends withAccountOpenAndCloseDate {
+trait User{
   def firstName: String
   def lastName: String
   def age: Int
   def userId: Option[UserUUID]
   def phone: Long
   def profilePicture: Option[Image]
+  def openDate: Option[Date]
+  def closeDate: Option[Date]
 }
 
 case class Customer private (firstName: String,
