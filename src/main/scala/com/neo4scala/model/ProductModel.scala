@@ -2,6 +2,8 @@ package com.neo4scala.model
 
 import java.util.UUID
 import Common._
+import com.wix.accord._
+import com.wix.accord.dsl._
 
 sealed trait Size
 case object Small extends Size
@@ -34,3 +36,14 @@ case class PlainProduct(productName: String,
                         images: Option[List[Image]],
                         categories: Option[List[Category]] = None)
     extends Product
+
+object Product{
+  implicit val productValidator = validator[Product] { product =>
+    product.price must be > 0.0
+    product.categories.get.size must be > 0
+    product.images.get.size must be >1
+    product.productId is notEmpty
+    product.productName.size must be > 3
+    product.quatityInStock.get must be > 0
+  }
+}
