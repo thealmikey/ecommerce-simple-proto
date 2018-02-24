@@ -41,6 +41,9 @@ addCompilerPlugin(
 
 libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.1"
 
+// Regular (JVM) Scala projects:
+libraryDependencies += "com.wix" %% "accord-core" % "0.7.2"
+
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.4"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
 libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"

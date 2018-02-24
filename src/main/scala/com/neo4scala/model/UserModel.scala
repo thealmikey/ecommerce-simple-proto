@@ -3,12 +3,13 @@ package com.neo4scala.model
 import java.util.{Calendar, Date, UUID}
 
 import scala.util.{Failure, Success, Try}
+import com.wix.accord._
+import com.wix.accord.dsl._
 import Common._
-
 
 case class UserUUID(value: UUID) extends AnyVal
 
-trait User{
+trait User {
   def firstName: String
   def lastName: String
   def age: Int
@@ -39,6 +40,16 @@ case class Owner private (firstName: String,
     extends User
 
 object User {
+
+  implicit val userValidator = validator[User] { u =>
+    u.firstName is notEmpty
+    u.firstName.size must be >= 3
+    u.lastName.size must be >= 3
+    u.lastName is notEmpty
+    u.age must be >= 16
+    u.phone.toString.size must be >= 10
+  }
+
   def createCustomer(firstName: String,
                      lastName: String,
                      age: Int,
