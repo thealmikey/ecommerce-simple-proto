@@ -1,12 +1,15 @@
 package com.neo4scala.model
 
+import java.util
 import java.util.{Calendar, Date, UUID}
 
 import User._
 import com.neo4scala.model.Product._
+
 import scala.util.{Failure, Success, Try}
 import com.wix.accord._
 import com.wix.accord.dsl._
+import Product.productValidator
 
 sealed trait Status
 case object Enabled extends Status
@@ -20,6 +23,12 @@ case object Processing extends OrderState
 case object Shipped extends OrderState
 
 case class OrderUUID(value: UUID) extends AnyVal
+object OrderUUID{
+  implicit val orderUUIDValidator = validator[OrderUUID]{
+    o =>
+      o.value.isInstanceOf[UUID]
+  }
+}
 
 case class Order private (customer: Customer,
                           shop: Shop,
@@ -34,10 +43,8 @@ object Order {
   implicit val orderValidator = validator[Order] { order =>
     order.customer is valid
     order.shop is valid
-    order.orderId is notEmpty
-    order.openDate is notEmpty
-    order.products is valid
-    order.openDate is notEmpty
+    order.orderId is valid
+    order.products.each is valid
   }
 
   def createOrder(customer: Customer,

@@ -4,7 +4,9 @@ import java.util.UUID
 import com.wix.accord._
 import com.wix.accord.dsl._
 
-case class CategoryUUID(value:UUID) extends AnyVal
+
+case class CategoryUUID(value: UUID) extends AnyVal
+
 trait Category {
   def categoryId: CategoryUUID
   def categoryName: String
@@ -13,14 +15,13 @@ trait Category {
 }
 
 case class PlainCategory(categoryId: CategoryUUID,
-                    categoryName: String,
-                    subCategories: Option[List[Category]],
-                    synonyms: Option[List[String]])
+                         categoryName: String,
+                         subCategories: Option[List[Category]],
+                         synonyms: Option[List[String]])
     extends Category
 
-object Category{
+object Category {
   implicit val categoryValidator = validator[Category] { category =>
-    category.categoryId is notEmpty
     category.categoryName is notEmpty
     category.synonyms is notEmpty
   }

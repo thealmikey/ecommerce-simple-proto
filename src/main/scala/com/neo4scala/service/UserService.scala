@@ -7,11 +7,19 @@ import cats.syntax.validated._
 import cats.Apply
 import cats.implicits._
 
+import scala.util.Try
+
 trait UserService {
-  def createNewCustomer(firstName:String,lastName:String,age:Int,phone:Long): ValidationResult[User]
+  def createNewCustomer(firstName: String,
+                        lastName: String,
+                        age: Int,
+                        phone: Long): User
 }
 
-object UserServiceImplementation extends UserService{
-  def createNewCustomer(firstName:String,lastName:String,age:Int,phone:Long): ValidationResult[User] =
-( validateFirstName(firstName),validateLastName(lastName), validateAge(age),validatePhone(phone)).mapN((a,b,c,d) =>User.createCustomer(a, b,c,d))
+object UserServiceImplementation extends UserService {
+  def createNewCustomer(firstName: String,
+                        lastName: String,
+                        age: Int,
+                        phone: Long):User=
+    User.createCustomer(firstName, lastName, age, phone)
 }

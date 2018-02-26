@@ -42,7 +42,7 @@ object Product{
     product.price must be > 0.0
     product.categories.get.size must be > 0
     product.images.get.size must be >1
-    product.productId is notEmpty
+    product.productId.isInstanceOf[UUID]
     product.productName.size must be > 3
     product.quatityInStock.get must be > 0
   }

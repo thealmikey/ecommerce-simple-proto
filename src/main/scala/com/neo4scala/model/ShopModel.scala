@@ -19,8 +19,6 @@ object Shop {
 
   implicit val shopValidator = validator[Shop] { shop =>
     shop.name is notEmpty
-    shop.location is notEmpty
-    shop.shopId is notEmpty
-    shop.logo is notEmpty
+    shop.shopId.value.isInstanceOf[UUID]
   }
 }
