@@ -1,4 +1,5 @@
 package com.neo4scala.model
+import gremlin.scala._
 
 import java.util.{Calendar, Date, UUID}
 
@@ -20,6 +21,7 @@ trait User {
   def closeDate: Option[Date]
 }
 
+@label("customer")
 case class Customer private (firstName: String,
                              lastName: String,
                              age: Int,
@@ -29,6 +31,7 @@ case class Customer private (firstName: String,
                              openDate: Option[Date] = None,
                              closeDate: Option[Date] = None)
     extends User
+@label("owner")
 case class Owner private (firstName: String,
                           lastName: String,
                           age: Int,

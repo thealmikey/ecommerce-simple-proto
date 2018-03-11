@@ -4,14 +4,8 @@ version := "0.1"
 
 scalaVersion := "2.12.4"
 
-// https://mvnrepository.com/artifact/org.neo4j/neo4j
-libraryDependencies += "org.neo4j" % "neo4j" % "3.3.2"
-// https://mvnrepository.com/artifact/org.neo4j.driver/neo4j-java-driver
-libraryDependencies += "org.neo4j.driver" % "neo4j-java-driver" % "1.5.0"
-
-
-libraryDependencies++= Seq(
-  "com.typesafe.akka" %% "akka-http"   % "10.1.0-RC1",
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-http" % "10.1.0-RC1",
   "com.typesafe.akka" %% "akka-stream" % "2.5.8"
 )
 
@@ -30,9 +24,9 @@ libraryDependencies += "de.heikoseeberger" %% "akka-http-circe" % "1.19.0"
 val monocleVersion = "1.5.0" // 1.5.0-cats based on cats 1.0.x
 
 libraryDependencies ++= Seq(
-  "com.github.julien-truffaut" %%  "monocle-core"  % monocleVersion,
-  "com.github.julien-truffaut" %%  "monocle-macro" % monocleVersion,
-  "com.github.julien-truffaut" %%  "monocle-law"   % monocleVersion % "test"
+  "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
+  "com.github.julien-truffaut" %% "monocle-macro" % monocleVersion,
+  "com.github.julien-truffaut" %% "monocle-law" % monocleVersion % "test"
 )
 
 addCompilerPlugin(
@@ -43,6 +37,7 @@ libraryDependencies += "org.typelevel" %% "cats-core" % "1.0.1"
 
 // Regular (JVM) Scala projects:
 libraryDependencies += "com.wix" %% "accord-core" % "0.7.2"
+libraryDependencies += "com.wix" %% "accord-scalatest" % "0.7.2" % "test"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.4"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.4" % "test"
@@ -50,3 +45,9 @@ libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.13.4" % "test"
 libraryDependencies += "org.scalamock" %% "scalamock" % "4.1.0" % Test
 // https://mvnrepository.com/artifact/org.scalamock/scalamock-scalatest-support
 libraryDependencies += "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
+
+libraryDependencies ++= Seq(
+  "com.michaelpollmeier" %% "gremlin-scala" % "3.3.0.5"
+)
+// https://mvnrepository.com/artifact/com.orientechnologies/orientdb-gremlin
+libraryDependencies += "com.orientechnologies" % "orientdb-gremlin" % "2.2.32"
