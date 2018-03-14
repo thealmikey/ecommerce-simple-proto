@@ -49,7 +49,7 @@ object User {
     u.firstName.size must be >= 3
     u.lastName.size must be >= 3
     u.lastName is notEmpty
-    u.age must be >= 16
+    u.age.toInt must be >= 16
     u.phone.toString.size must be >=12
     u.phone.toString is matchRegex("""\^254(\d){9}\""")
   }

@@ -17,9 +17,9 @@ object UserRepositoryImpl extends UserRepository[Id] {
 
   var graph = Util.TheGraph
 
-  def removeSpecific={
+  def removeSpecific(phoneNo:Long)={
     var phoneNumber = Key[Long]("phone")
-    var theUser = graph.V.hasLabel("customer").has(phoneNumber, 8453499L).drop().iterate()
+    var theUser = graph.V.hasLabel("customer").has(phoneNumber, phoneNo).drop().iterate()
   }
 
   def matchLabelToCC(theLabel: String, theUser: Vertex): Option[User] = {

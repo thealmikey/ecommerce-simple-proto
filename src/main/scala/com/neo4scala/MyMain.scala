@@ -13,6 +13,7 @@ import com.neo4scala.service.UserServiceImpl
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn
+import gremlin.scala._
 
 object MainOne extends App {
 
@@ -20,18 +21,18 @@ object MainOne extends App {
   implicit val actorMaterializer: ActorMaterializer = ActorMaterializer()
 
 
- var newGuy = UserServiceImpl.createNewCustomer("Wonderwoman","Gal",44,8453499L,Util.createUUID)
-  var savedNewGuy = UserRepositoryImpl.add(newGuy)
+// var newGuy = UserServiceImpl.createNewCustomer("Wonderwoman","Gal",44,8453499L,Util.createUUID)
+//  var savedNewGuy = UserRepositoryImpl.add(newGuy)
 //  val newGuy = UserRepositoryImpl.findByPhone(8453499,"customer").get.asInstanceOf[Customer]
 
-  println(savedNewGuy)
+  println(UserRepositoryImpl.removeSpecific(8453499L))
   //UserRepositoryImpl.removeSpecific
 
   val publicRoutes = pathPrefix("customers") {
     pathEnd {
       complete("customers port")
     } ~ path(IntNumber) { int =>
-      complete(if (int % 5 == 0) "even ball" else "odd ball")
+      complete("nop")
     } ~ path(Segment){ boo=>
       complete(s"i see you $boo")
     }
