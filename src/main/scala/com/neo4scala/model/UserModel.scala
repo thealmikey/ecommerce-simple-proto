@@ -9,7 +9,7 @@ import com.wix.accord.dsl._
 import Common._
 
 case class UserUUID(value: UUID) extends AnyVal
-
+@label("user")
 trait User {
   def firstName: String
   def lastName: String
@@ -50,7 +50,8 @@ object User {
     u.lastName.size must be >= 3
     u.lastName is notEmpty
     u.age must be >= 16
-    u.phone.toString.size must be >= 10
+    u.phone.toString.size must be >=12
+    u.phone.toString is matchRegex("""\^254(\d){9}\""")
   }
 
   def createCustomer(firstName: String,
@@ -107,35 +108,5 @@ object User {
       .getOrElse {
         Success((od, closeDate))
       }
-  }
-}
-
-sealed trait DayOfWeek {
-  val theDay: Int
-
-  override def toString = theDay match {
-    case 1 => "Monday"
-    case 2 => "Tuesday"
-    case 3 => "Wednesday"
-    case 4 => "Thursday"
-    case 5 => "Friday"
-    case 6 => "Saturday"
-    case 7 => "Sunday"
-  }
-}
-
-object DayOfWeek {
-  private def createDayOfWeek(d: Int) = new DayOfWeek {
-    override val theDay: Int = d
-  }
-  private def isValid: Int => Boolean = { i =>
-    i >= 1 && i <= 7
-  }
-  def dayOfWeek(d: Int): Option[DayOfWeek] = {
-    if (isValid(d)) {
-      Some(createDayOfWeek(d))
-    } else {
-      None
-    }
   }
 }

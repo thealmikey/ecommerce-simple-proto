@@ -7,45 +7,25 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import com.neo4scala.model.{Customer, User}
-import com.neo4scala.service.UserServiceImplementation
-import gremlin.scala._
-import org.apache.commons.configuration.BaseConfiguration
-import org.apache.tinkerpop.gremlin.orientdb.OrientGraphFactory
+import com.neo4scala.model.Customer
+import com.neo4scala.repository.{UserRepositoryImpl, Util}
+import com.neo4scala.service.UserServiceImpl
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import scala.io.StdIn
-import scala.util.{Success, Try}
-import scala.collection.JavaConverters._
+
 object MainOne extends App {
 
   implicit val actorSystem: ActorSystem = ActorSystem("mikesys")
   implicit val actorMaterializer: ActorMaterializer = ActorMaterializer()
 
-  import org.apache.tinkerpop.gremlin.orientdb.OrientGraph
 
-  var config = new BaseConfiguration()
-  config.setProperty("orient-url","remote:localhost/Mike")
-  config.setProperty("orient-user","root")
-  config.setProperty("orient-pass","root")
+ var newGuy = UserServiceImpl.createNewCustomer("Wonderwoman","Gal",44,8453499L,Util.createUUID)
+  var savedNewGuy = UserRepositoryImpl.add(newGuy)
+//  val newGuy = UserRepositoryImpl.findByPhone(8453499,"customer").get.asInstanceOf[Customer]
 
-  val Price = Key[Double]("price")
-  val ProductName = Key[String]("product_name")
-  val ProductId = Key[Int]("product_id")
-
-  var txGraph = OrientGraph.open(config).asScala()
-
-//  Future{
-//    txGraph + ("Product",Price->100, ProductName->"Ovacado",ProductId ->29019)
-//  }.onComplete(_=>println("The holy fruit has been saved"))
-//
-//  txGraph + ("Product",Price->100, ProductName->"KDF",ProductId ->99921)
-
-  val customer = Customer("Michael","Gikaru",56,8358392458L)
-  val v = txGraph + customer
-  v.toCC[Customer]
-  println(txGraph.V.hasLabel[Customer].toList())
+  println(savedNewGuy)
+  //UserRepositoryImpl.removeSpecific
 
   val publicRoutes = pathPrefix("customers") {
     pathEnd {
@@ -72,6 +52,4 @@ object MainOne extends App {
   StdIn.readLine()
 
   bindFuture.flatMap(_.unbind()).onComplete(_ => actorSystem.terminate())
-//  driver.close()
-
 }
