@@ -22,6 +22,7 @@ object ShopRepositoryImpl extends ShopRepository[Id] {
     }
   }
 
+
   override def findByUUID(shopId: UUID, label: String): Option[ShopTrait] = {
     val shopUUID = Key[UUID]("uuid")
     var theShop = graph.V.hasLabel(label).has(shopUUID, shopId).head
@@ -55,11 +56,20 @@ object ShopRepositoryImpl extends ShopRepository[Id] {
 
   override def update(shop: ShopTrait): Id[Try[ShopTrait]] = {
     val shopUUID = Key[UUID]("uuid")
+    var theShopTrait = shop match {
+      case x: Shop => x.asInstanceOf[Shop]
+      case x: Greengrocer =>
+        var theShop = x.asInstanceOf[Greengrocer]
+      case x: Butchery =>
+        x.asInstanceOf[Butchery]
+      case x: Hardware => x.asInstanceOf[Hardware]
+    }
+    var theClassName = shop.getClass.getSimpleName.toLowerCase
     var theShop = graph.V
-      .hasLabel[Customer]
+      .hasLabel(theClassName)
       .has(shopUUID, shop.shopId.value)
       .head
-      .updateWith(shop)
+      .updateWith(theShopTrait.asInstanceOf[Shop])
     var theLabel = theShop.label()
     Success(matchLabelToCC(theLabel, theShop).get)
   }

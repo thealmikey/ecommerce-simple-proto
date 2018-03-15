@@ -1,9 +1,12 @@
 package com.neo4scala.model
 
 import java.util.UUID
+
 import Common._
 import com.wix.accord._
 import com.wix.accord.dsl._
+import gremlin.scala.label
+import gremlin.scala._
 
 sealed trait Size
 case object Small extends Size
@@ -14,6 +17,7 @@ sealed trait InStock
 case object Available extends InStock
 case object Unavailable extends InStock
 
+@label("product")
 sealed trait Product {
   def productName: String
   def productId: UUID
@@ -26,6 +30,7 @@ sealed trait Product {
   def categories: Option[List[Category]]
 }
 
+@label("plain_product")
 case class PlainProduct(productName: String,
                         productId: UUID,
                         sizes: Option[Size],

@@ -56,8 +56,9 @@ object UserRepositoryImpl extends UserRepository[Id] {
 
   override def update(user: Customer): Id[Try[User]] = {
     val userUUID = Key[UUID]("uuid")
+    var theClassName = user.getClass.getSimpleName.toLowerCase
     var theUser = graph.V
-      .hasLabel[Customer]
+      .hasLabel(theClassName)
       .has(userUUID, user.userId.get.value)
       .head
       .updateWith(user)
