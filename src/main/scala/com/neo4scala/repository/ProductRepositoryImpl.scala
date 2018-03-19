@@ -54,17 +54,25 @@ object ProductRepositoryImpl extends ProductRepository[Id] {
     }
   }
 
-  override def update(product: Product): Id[Try[Product]] = {
+  override def update(product:Product): Id[Try[Product]] = {
     val productUUID = Key[UUID]("uuid")
     var theClassName = product.getClass.getSimpleName.toLowerCase
+
+    var updateProduct = product match {
+      case x:PlainProduct => x.asInstanceOf[PlainProduct]
+    }
 
     //todo update to generic product
     var theProduct = graph.V
       .hasLabel(theClassName)
       .has(productUUID, product.productId)
       .head
-      .updateWith(product.asInstanceOf[PlainProduct])
+      .updateWith(updateProduct)
 
+//    def typeBend[T<:Product](product: T):T = product match {
+//      case x:PlainProduct => x.asInstanceOf[T]
+//    }
+def manOf[T: Manifest](t: T): Manifest[T] = manifest[T]
     var theLabel = theProduct.label()
     Success(matchLabelToCC(theLabel, theProduct).get)
   }

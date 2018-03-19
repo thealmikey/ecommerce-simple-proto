@@ -1,5 +1,7 @@
 package com.neo4scala.model
 
+import gremlin.scala.label
+import gremlin.scala._
 
 object Common {
 
@@ -22,14 +24,20 @@ object Common {
       val value = d
     }
 
-    private val isValid: Int => Boolean = { i => i >= 1 && i <= 7 }
+    private val isValid: Int => Boolean = { i =>
+      i >= 1 && i <= 7
+    }
 
-    def dayOfWeek(d: Int): Option[DayOfWeek] = if (isValid(d))
-      Some(unsafeDayOfWeek(d)) else None
+    def dayOfWeek(d: Int): Option[DayOfWeek] =
+      if (isValid(d))
+        Some(unsafeDayOfWeek(d))
+      else None
   }
-
+  @label("Location")
   case class Location(latitude: Long, longitude: Long)
-
+  @label("image")
   case class Image(imageUrl: String)
+
+
 
 }

@@ -7,11 +7,9 @@ import com.neo4scala.model.{Order, OrderState}
 import scala.util.Try
 
 trait OrdertRepository[F[_]]{
-  def query(orderId:UUID):F[Option[Order]]
-  def query(orderIds:UUID*):F[Option[Seq[Map[UUID,Order]]]]
-  def query(orderStatus:OrderState):F[Option[Seq[Order]]]
-  def update(order:Order):F[Option[Order]]
-  def store(order:Order):F[Try[Order]]
-  def removeOrder(order:Order):F[Try[Order]]
-  def removeOrder(orderId:UUID):F[Try[Order]]
-}
+    def findByUUID(property:UUID, label:String):Option[Order]
+    def findByName(property:String, label:String):Option[Order]
+    def add(user:Order):F[Try[Order]]
+    def update(order:Order):F[Try[Order]]
+    def remove(order:Order):F[Try[Order]]
+  }

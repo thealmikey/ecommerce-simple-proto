@@ -6,6 +6,7 @@ import Common._
 import com.wix.accord._
 import com.wix.accord.dsl._
 import gremlin.scala.label
+import gremlin.scala._
 
 case class ShopUUID(value: UUID) extends AnyVal
 
@@ -15,15 +16,14 @@ trait ShopTrait {
   def shopId: ShopUUID
   def location: Location
   def logo: Image
-  def productCatalog: List[Product]
+ // def productCatalog: List[Product]
 }
 
 @label("regular_shop")
 case class Shop(name: String,
                       shopId: ShopUUID,
                       location: Location,
-                      logo: Image,
-                      productCatalog: List[Product])
+                      logo: Image)
     extends ShopTrait
 
 @label("butchery")
