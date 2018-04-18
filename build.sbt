@@ -47,17 +47,10 @@ libraryDependencies += "org.scalamock" %% "scalamock" % "4.1.0" % Test
 libraryDependencies += "org.scalamock" %% "scalamock-scalatest-support" % "3.6.0" % Test
 
 libraryDependencies ++= Seq(
-  "com.michaelpollmeier" %% "gremlin-scala" % "3.3.0.5"
+  "com.michaelpollmeier" %% "gremlin-scala" % "3.3.1.2"
 )
 // https://mvnrepository.com/artifact/com.orientechnologies/orientdb-gremlin
 libraryDependencies += "com.orientechnologies" % "orientdb-gremlin" % "2.2.32"
 
-//libraryDependencies ++= Seq(
-//  "org.apache.tinkerpop" % "neo4j-gremlin" % "3.3.1",
-//  "org.neo4j" % "neo4j-tinkerpop-api-impl" % "0.7-3.2.3"
-//)
-//// https://mvnrepository.com/artifact/org.neo4j/neo4j
-//libraryDependencies += "org.neo4j" % "neo4j" % "3.3.3"
-//// https://mvnrepository.com/artifact/com.steelbridgelabs.oss/neo4j-gremlin-bolt
-//libraryDependencies += "com.steelbridgelabs.oss" % "neo4j-gremlin-bolt" % "0.2.27"
-//
+
+libraryDependencies += "org.typelevel" %% "cats-effect" % "0.10"
