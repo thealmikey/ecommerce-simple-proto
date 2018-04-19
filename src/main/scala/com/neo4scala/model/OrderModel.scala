@@ -31,7 +31,7 @@ object OrderUUID {
 }
 
 @label("order")
-case class Order private (customer: OwnerType,
+case class Order private (customer: UserType,
                           shop: Shop,
                           products: List[Product],
                           orderId: OrderUUID,
@@ -40,15 +40,12 @@ case class Order private (customer: OwnerType,
                           closeDate: Option[Date])
 
 object Order {
-
-  implicit val orderValidator = validator[Order] { order =>
-    order.customer is valid
-    order.shop is valid
-    order.orderId is valid
-    order.products.each is valid
+  implicit val orderValidator = validator[Order]{
+    order =>
+      order.customer.isInstanceOf[UserType]
+      order.products.each.isInstanceOf[Product]
   }
-
-  def createOrder(customer: OwnerType,
+  def createOrder(customer: UserType,
                   shop: Shop,
                   products: List[Product],
                   orderId: OrderUUID,

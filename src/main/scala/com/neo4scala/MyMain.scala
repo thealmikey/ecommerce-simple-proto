@@ -21,8 +21,8 @@ object MainOne extends App {
   var newShop = Shop("tinie tech shop",
                      ShopUUID(Util.createUUID),
                      Location(1000, 1000),
-                     Image("Love doctor"),
-    shopType = "power tech shop"
+                     Image("Gravity Matters"),
+    "Butchery"
   )
   println(ShopRepositoryImpl.add(newShop))
 

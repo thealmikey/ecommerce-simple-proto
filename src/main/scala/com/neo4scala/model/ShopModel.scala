@@ -10,18 +10,12 @@ import gremlin.scala._
 
 case class ShopUUID(value: UUID) extends AnyVal
 
-sealed trait ShopType
-case object Butchery extends ShopType
-case object Hardware extends ShopType
-case object Greengrocer extends ShopType
-
-@label("shop")
 trait ShopTrait {
   def name: String
   def shopId: ShopUUID
   def location: Location
   def logo: Image
-  def shopType: ShopType
+  def shopType: String
   // def productCatalog: List[Product]
 }
 
@@ -30,7 +24,7 @@ case class Shop(name: String,
                 shopId: ShopUUID,
                 location: Location,
                 logo: Image,
-                shopType: ShopType)
+                shopType: String)
     extends ShopTrait
 
 object ShopTrait {

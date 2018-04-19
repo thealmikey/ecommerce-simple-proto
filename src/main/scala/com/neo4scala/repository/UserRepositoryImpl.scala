@@ -17,44 +17,32 @@ object UserRepositoryImpl extends UserRepository[Id] {
 
   var graph = Util.TheGraph
 
-  def removeSpecific(phoneNo:Long)={
+  def removeSpecific(phoneNo: Long) = {
     var phoneNumber = Key[Long]("phone")
-    var theUser = graph.V.hasLabel("customer").has(phoneNumber, phoneNo).drop().iterate()
-  }
-
-  def matchLabelToCC(theLabel: String, theUser: Vertex): Option[User] = {
-    theLabel match {
-      case "customer" => Option(theUser.toCC[Customer].asInstanceOf[User])
-      case "owner"    => Option(theUser.toCC[Owner].asInstanceOf[User])
-    }
+    var theUser =
+      graph.V.hasLabel("customer").has(phoneNumber, phoneNo).drop().iterate()
   }
 
   override def findByUUID(userId: UUID, label: String): Option[User] = {
     val userUUID = Key[UUID]("uuid")
     var theUser = graph.V.hasLabel(label).has(userUUID, userId).head
     var theLabel = theUser.label()
-    matchLabelToCC(theLabel, theUser)
+    Some(theUser.toCC[User])
   }
 
   def findByPhone(phone: Long, label: String): Option[User] = {
     var phoneNumber = Key[Long]("phone")
     var theUser = graph.V.hasLabel(label).has(phoneNumber, phone).head
     var theLabel = theUser.label()
-    matchLabelToCC(theLabel, theUser)
+    Some(theUser.toCC[User])
   }
 
   override def add(user: User): Id[Try[User]] = {
-    user match {
-      case x: Customer =>
-        var theUser = graph.+(x.asInstanceOf[Customer])
-        Success(user)
-      case x: Owner =>
-        var theUser = graph.+(x.asInstanceOf[Owner])
-        Success(user)
-    }
+    var theUser = graph.+(user)
+    Success(theUser.toCC[User])
   }
 
-  override def update(user: Customer): Id[Try[User]] = {
+  override def update(user: User): Id[Try[User]] = {
     val userUUID = Key[UUID]("uuid")
     var theClassName = user.getClass.getSimpleName.toLowerCase
     var theUser = graph.V
@@ -63,19 +51,17 @@ object UserRepositoryImpl extends UserRepository[Id] {
       .head
       .updateWith(user)
     var theLabel = theUser.label()
-    Success(matchLabelToCC(theLabel, theUser).get)
+    Success(theUser.toCC[User])
   }
 
   override def remove(user: User): Id[Try[User]] = {
     val userUUID = Key[UUID]("uuid")
-    user match {
-      case x: Customer =>
-       var testRemove = graph.V.hasLabel("customer").has(userUUID, x.userId.get.value).drop().headOption()
-        println(testRemove)
-        Success(user)
-      case x: Owner =>
-        graph.V.hasLabel("owner").has(userUUID, x.userId.get.value).drop()
-        Success(user)
-    }
+    var removedUser = graph.V
+      .hasLabel("user")
+      .has(userUUID, user.userId.get.value)
+      .drop()
+      .headOption()
+    println(removedUser.get.toCC[User])
+    Success(removedUser.get.toCC[User])
   }
 }

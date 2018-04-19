@@ -14,7 +14,7 @@ object ProductRepositoryImpl extends ProductRepository[Id] {
   def matchLabelToCC(theLabel: String, theProduct: Vertex): Option[Product] = {
     theLabel match {
       case "plain_product" =>
-        Option(theProduct.toCC[PlainProduct].asInstanceOf[Product])
+        Option(theProduct.toCC[Product].asInstanceOf[Product])
     }
   }
 
@@ -43,14 +43,14 @@ object ProductRepositoryImpl extends ProductRepository[Id] {
       .dedup()
       .toList()
     Some(theProducts.foldRight(List.empty[Product])((a, b) =>
-      b :+ a.toCC[PlainProduct].asInstanceOf[Product]))
+      b :+ a.toCC[Product].asInstanceOf[Product]))
   }
 
   override def add(product: Product): Id[Try[Product]] = {
     product match {
-      case x: PlainProduct =>
+      case x: Product =>
         var theProduct = graph + x
-        Success(theProduct.toCC[PlainProduct].asInstanceOf[Product])
+        Success(theProduct.toCC[Product].asInstanceOf[Product])
     }
   }
 
@@ -59,7 +59,7 @@ object ProductRepositoryImpl extends ProductRepository[Id] {
     var theClassName = product.getClass.getSimpleName.toLowerCase
 
     var updateProduct = product match {
-      case x:PlainProduct => x.asInstanceOf[PlainProduct]
+      case x:Product => x.asInstanceOf[Product]
     }
 
     //todo update to generic product

@@ -18,8 +18,8 @@ case object Available extends InStock
 case object Unavailable extends InStock
 
 sealed trait ProductType
-case object PlainProduct extends ProductType
-case object ServiceProduct extends ProductType
+case class PlainProduct(value:String="plain_product") extends ProductType
+case class ServiceProduct(value:String="service_product") extends ProductType
 
 @label("product")
 sealed trait ProductTrait {

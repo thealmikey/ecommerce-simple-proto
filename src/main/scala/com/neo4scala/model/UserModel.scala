@@ -8,9 +8,9 @@ import com.wix.accord._
 import com.wix.accord.dsl._
 import Common._
 
-sealed trait OwnerType
-case object Customer extends OwnerType
-case object Owner extends OwnerType
+sealed trait UserType
+case class Customer(value:String="customer") extends UserType
+case class Owner(value:String="owner") extends UserType
 
 case class UserUUID(value: UUID) extends AnyVal
 
@@ -24,7 +24,7 @@ trait UserTrait {
   def profilePicture: Option[Image]
   def openDate: Option[Date]
   def closeDate: Option[Date]
-  def ownerType: OwnerType
+  def userType: UserType
 }
 
 @label("user")
@@ -36,7 +36,7 @@ case class User private (firstName: String,
                          profilePicture: Option[Image] = None,
                          openDate: Option[Date] = None,
                          closeDate: Option[Date] = None,
-                         ownerType: OwnerType)
+                         userType: UserType)
     extends UserTrait
 
 object User {
@@ -52,22 +52,24 @@ object User {
   }
 
   def createUser(firstName: String,
-                  lastName: String,
-                  age: Int,
-                  phone: Long,
-                  userId: Option[UserUUID] = None,
-                  profilePicture: Option[Image] = None,
-                  openDate: Option[Date] = None,
-                  closeDate: Option[Date] = None): User = {
+                 lastName: String,
+                 age: Int,
+                 phone: Long,
+                 userId: Option[UserUUID] = None,
+                 profilePicture: Option[Image] = None,
+                 openDate: Option[Date] = None,
+                 closeDate: Option[Date] = None,
+                 userType: UserType): User = {
     var d = closeDateCheck(openDate, closeDate).get
-    Owner(firstName,
-          lastName,
-          age,
-          phone,
-          userId,
-          profilePicture,
-          Some(d._1),
-          d._2)
+    User(firstName,
+         lastName,
+         age,
+         phone,
+         userId,
+         profilePicture,
+         Some(d._1),
+         d._2,
+         userType)
   }
 
   def closeDateCheck(openDate: Option[Date],
