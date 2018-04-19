@@ -18,11 +18,11 @@ object MainOne extends App {
   implicit val actorSystem: ActorSystem = ActorSystem("mikesys")
   implicit val actorMaterializer: ActorMaterializer = ActorMaterializer()
 
-  var newShop = Shop("junior drug shop",
+  var newShop = Shop("tinie tech shop",
                      ShopUUID(Util.createUUID),
                      Location(1000, 1000),
                      Image("Love doctor"),
-    shopType = "power shop"
+    shopType = "power tech shop"
   )
   println(ShopRepositoryImpl.add(newShop))
 

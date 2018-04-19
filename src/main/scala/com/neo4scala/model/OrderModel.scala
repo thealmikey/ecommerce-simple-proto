@@ -10,6 +10,7 @@ import scala.util.{Failure, Success, Try}
 import com.wix.accord._
 import com.wix.accord.dsl._
 import Product.productValidator
+import gremlin.scala.label
 
 sealed trait Status
 case object Enabled extends Status
@@ -23,16 +24,16 @@ case object Processing extends OrderState
 case object Shipped extends OrderState
 
 case class OrderUUID(value: UUID) extends AnyVal
-object OrderUUID{
-  implicit val orderUUIDValidator = validator[OrderUUID]{
-    o =>
-      o.value.isInstanceOf[UUID]
+object OrderUUID {
+  implicit val orderUUIDValidator = validator[OrderUUID] { o =>
+    o.value.isInstanceOf[UUID]
   }
 }
 
-case class Order private (customer: Customer,
+@label("order")
+case class Order private (customer: OwnerType,
                           shop: Shop,
-                          products:List[Product],
+                          products: List[Product],
                           orderId: OrderUUID,
                           orderState: OrderState,
                           openDate: Date,
@@ -47,9 +48,9 @@ object Order {
     order.products.each is valid
   }
 
-  def createOrder(customer: Customer,
+  def createOrder(customer: OwnerType,
                   shop: Shop,
-                  products:List[Product],
+                  products: List[Product],
                   orderId: OrderUUID,
                   orderState: OrderState,
                   openDate: Option[Date],

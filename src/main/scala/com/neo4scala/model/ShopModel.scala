@@ -14,22 +14,23 @@ sealed trait ShopType
 case object Butchery extends ShopType
 case object Hardware extends ShopType
 case object Greengrocer extends ShopType
+
 @label("shop")
 trait ShopTrait {
   def name: String
   def shopId: ShopUUID
   def location: Location
   def logo: Image
-  def shopType: String
+  def shopType: ShopType
   // def productCatalog: List[Product]
 }
 
-@label("regular_shop")
+@label("shop")
 case class Shop(name: String,
                 shopId: ShopUUID,
                 location: Location,
                 logo: Image,
-                shopType: String)
+                shopType: ShopType)
     extends ShopTrait
 
 object ShopTrait {

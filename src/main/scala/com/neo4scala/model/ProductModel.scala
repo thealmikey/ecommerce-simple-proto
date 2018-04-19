@@ -17,8 +17,12 @@ sealed trait InStock
 case object Available extends InStock
 case object Unavailable extends InStock
 
+sealed trait ProductType
+case object PlainProduct extends ProductType
+case object ServiceProduct extends ProductType
+
 @label("product")
-sealed trait Product {
+sealed trait ProductTrait {
   def productName: String
   def productId: UUID
   def sizes: Option[Size]
@@ -28,25 +32,27 @@ sealed trait Product {
   def stock: InStock
   def images: Option[List[Image]]
   def categories: Option[List[Category]]
+  def productType: ProductType
 }
 
-@label("plain_product")
-case class PlainProduct(productName: String,
-                        productId: UUID,
-                        sizes: Option[Size],
-                        price: Double,
-                        productStatus: Status,
-                        quatityInStock: Option[Int],
-                        stock: InStock,
-                        images: Option[List[Image]],
-                        categories: Option[List[Category]] = None)
-    extends Product
+@label("product")
+case class Product(productName: String,
+                   productId: UUID,
+                   sizes: Option[Size],
+                   price: Double,
+                   productStatus: Status,
+                   quatityInStock: Option[Int],
+                   stock: InStock,
+                   images: Option[List[Image]],
+                   categories: Option[List[Category]] = None,
+                   productType: ProductType)
+    extends ProductTrait
 
-object Product{
+object Product {
   implicit val productValidator = validator[Product] { product =>
     product.price must be > 0.0
     product.categories.get.size must be > 0
-    product.images.get.size must be >1
+    product.images.get.size must be > 1
     product.productId.isInstanceOf[UUID]
     product.productName.size must be > 3
     product.quatityInStock.get must be > 0

@@ -8,9 +8,14 @@ import com.wix.accord._
 import com.wix.accord.dsl._
 import Common._
 
+sealed trait OwnerType
+case object Customer extends OwnerType
+case object Owner extends OwnerType
+
 case class UserUUID(value: UUID) extends AnyVal
+
 @label("user")
-trait User {
+trait UserTrait {
   def firstName: String
   def lastName: String
   def age: Int
@@ -19,28 +24,20 @@ trait User {
   def profilePicture: Option[Image]
   def openDate: Option[Date]
   def closeDate: Option[Date]
+  def ownerType: OwnerType
 }
 
-@label("customer")
-case class Customer private (firstName: String,
-                             lastName: String,
-                             age: Int,
-                             phone: Long,
-                             userId: Option[UserUUID] = None,
-                             profilePicture: Option[Image] = None,
-                             openDate: Option[Date] = None,
-                             closeDate: Option[Date] = None)
-    extends User
-@label("owner")
-case class Owner private (firstName: String,
-                          lastName: String,
-                          age: Int,
-                          phone: Long,
-                          userId: Option[UserUUID] = None,
-                          profilePicture: Option[Image] = None,
-                          openDate: Option[Date] = None,
-                          closeDate: Option[Date] = None)
-    extends User
+@label("user")
+case class User private (firstName: String,
+                         lastName: String,
+                         age: Int,
+                         phone: Long,
+                         userId: Option[UserUUID] = None,
+                         profilePicture: Option[Image] = None,
+                         openDate: Option[Date] = None,
+                         closeDate: Option[Date] = None,
+                         ownerType: OwnerType)
+    extends UserTrait
 
 object User {
 
@@ -50,37 +47,18 @@ object User {
     u.lastName.size must be >= 3
     u.lastName is notEmpty
     u.age.toInt must be >= 16
-    u.phone.toString.size must be >=12
+    u.phone.toString.size must be >= 12
     u.phone.toString is matchRegex("""\^254(\d){9}\""")
   }
 
-  def createCustomer(firstName: String,
-                     lastName: String,
-                     age: Int,
-                     phone: Long,
-                     userId: Option[UserUUID] = None,
-                     profilePicture: Option[Image] = None,
-                     openDate: Option[Date] = None,
-                     closeDate: Option[Date] = None): Customer = {
-    var d = closeDateCheck(openDate, closeDate).get
-    Customer(firstName,
-             lastName,
-             age,
-             phone,
-             userId,
-             profilePicture,
-             Some(d._1),
-             d._2)
-  }
-
-  def createOwner(firstName: String,
+  def createUser(firstName: String,
                   lastName: String,
                   age: Int,
                   phone: Long,
                   userId: Option[UserUUID] = None,
                   profilePicture: Option[Image] = None,
                   openDate: Option[Date] = None,
-                  closeDate: Option[Date] = None): Owner = {
+                  closeDate: Option[Date] = None): User = {
     var d = closeDateCheck(openDate, closeDate).get
     Owner(firstName,
           lastName,
