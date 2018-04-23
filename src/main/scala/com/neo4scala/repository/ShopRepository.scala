@@ -8,10 +8,11 @@ import scala.util.Try
 
 trait ShopRepository[F[_]] {
 
-  def findByUUID(property:UUID, label:String):Option[Shop]
-  def findByName(property:String, label:String):Option[Shop]
+  def findByUUID(property:UUID):Option[Shop]
+  def findByName(property:String):Option[Shop]
   def add(shop:Shop):F[Try[Shop]]
   def update(shop:Shop):F[Try[Shop]]
   def remove(shop:Shop):F[Try[Shop]]
+  def fetchAll():Try[List[String]]
 
 }

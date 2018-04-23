@@ -47,11 +47,8 @@ object ProductRepositoryImpl extends ProductRepository[Id] {
   }
 
   override def add(product: Product): Id[Try[Product]] = {
-    product match {
-      case x: Product =>
-        var theProduct = graph + x
-        Success(theProduct.toCC[Product].asInstanceOf[Product])
-    }
+        var theProduct = graph + product
+        Success(theProduct.toCC[Product])
   }
 
   override def update(product:Product): Id[Try[Product]] = {
@@ -64,7 +61,7 @@ object ProductRepositoryImpl extends ProductRepository[Id] {
 
     //todo update to generic product
     var theProduct = graph.V
-      .hasLabel(theClassName)
+      .hasLabel("product")
       .has(productUUID, product.productId)
       .head
       .updateWith(updateProduct)

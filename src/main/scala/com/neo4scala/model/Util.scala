@@ -34,7 +34,7 @@ object Common {
       else None
   }
   @label("Location")
-  case class Location(latitude: Long, longitude: Long)
+  case class Location(latitude: String, longitude: String)
   @label("image")
   case class Image(imageUrl: String)
 
