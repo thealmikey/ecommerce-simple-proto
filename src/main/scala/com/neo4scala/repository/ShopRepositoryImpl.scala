@@ -96,6 +96,7 @@ object ShopRepositoryImpl extends ShopRepository[Id] {
   }
 
   val name = Key[String]("name")
+
   override def fetchAll(): Try[List[String]] = {
     var theName = Key[String]("name")
     var theRawRes = graph.V.hasLabel("shop").value(theName).toList()

@@ -10,7 +10,7 @@ object Util {
   def createUUID = java.util.UUID.randomUUID
 
   var config = new BaseConfiguration()
-  config.setProperty("orient-url","remote:localhost/Mike")
+  config.setProperty("orient-url","remote:oriental/Mike")
   config.setProperty("orient-user","root")
   config.setProperty("orient-pass","root")
 //  var TheGraphConfig = Neo4JGraphConfigurationBuilder

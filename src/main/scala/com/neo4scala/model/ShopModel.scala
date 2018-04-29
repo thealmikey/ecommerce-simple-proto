@@ -69,7 +69,9 @@ case class Shop(name: String,
                 logo: Image,
                 shopType: String,
                 openTime:Option[String],
-                closeTime:Option[String]
+                closeTime:Option[String],
+                owner:String,
+                mpesaNumber:Integer
                )
     extends ShopTrait
 

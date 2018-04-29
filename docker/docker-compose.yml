@@ -1,0 +1,15 @@
+version: "3"
+services:
+  oriental:
+    image: orientdb
+    ports:
+        - "2424:2424"
+        - "2480:2480"
+    environment:
+      ORIENTDB_ROOT_PASSWORD: 'root'
+  scala2new:
+    image: thealmikey/scala2neo:0.2.2<localBuild>
+    ports:
+      - "8989:8989"
+    depends_on:
+      - oriental

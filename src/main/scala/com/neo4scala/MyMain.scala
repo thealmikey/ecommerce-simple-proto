@@ -1,21 +1,17 @@
 package com.neo4scala
 
-import java.io.File
-import java.util.Date
-
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.neo4scala.model.Common.{Image, Location}
-import com.neo4scala.model.{Shop, ShopUUID}
-import com.neo4scala.repository.{ShopRepositoryImpl, Util}
+import com.neo4scala.model.Shop
+import com.neo4scala.repository.ShopRepositoryImpl
 import de.heikoseeberger.akkahttpcirce.FailFastCirceSupport
-import io.circe.Json
+import io.circe.syntax._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.io.StdIn
-import io.circe.syntax._
 
 object MainOne extends App with FailFastCirceSupport {
 
@@ -34,7 +30,7 @@ object MainOne extends App with FailFastCirceSupport {
 //  )
 //  println(ShopRepositoryImpl.add(newShop))
 import com.neo4scala.model.ShopCodec._
-  import io.circe.parser.decode
+import io.circe.parser.decode
   println(encodeShop(newShop))
   println(decode[Shop](myInput))
   val publicRoutes = pathPrefix("customers") {
@@ -73,9 +69,6 @@ import com.neo4scala.model.ShopCodec._
   }
   }
 
-  val bindFuture = Http().bindAndHandle(publicRoutes, "localhost", 8989)
-
-  StdIn.readLine()
-
-  bindFuture.flatMap(_.unbind()).onComplete(_ => actorSystem.terminate())
+ Http().bindAndHandle(publicRoutes, "0.0.0.0", 8989)
+  //bindFuture.flatMap(_.unbind()).onComplete(_ => actorSystem.terminate())
 }

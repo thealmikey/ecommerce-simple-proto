@@ -4,6 +4,11 @@ version := "0.1"
 
 scalaVersion := "2.12.4"
 
+enablePlugins(JavaAppPackaging)
+enablePlugins(DockerPlugin)
+enablePlugins(AshScriptPlugin)
+enablePlugins(DockerComposePlugin)
+
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % "10.1.0-RC1",
   "com.typesafe.akka" %% "akka-stream" % "2.5.8"
@@ -54,3 +59,12 @@ libraryDependencies += "com.orientechnologies" % "orientdb-gremlin" % "2.2.32"
 
 
 libraryDependencies += "org.typelevel" %% "cats-effect" % "0.10"
+
+dockerBaseImage := "openjdk:jre-alpine"
+dockerRepository := Some("thealmikey")
+dockerExposedPorts.in(Docker) := Seq(8989)
+daemonUser.in(Docker) := "root"
+mainClass in Compile := Some("com.neo4scala.MainOne")
+version.in(Docker) := "0.2.2"
+
+dockerImageCreationTask := (publishLocal in Docker).value
